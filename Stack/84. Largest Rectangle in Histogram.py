@@ -92,19 +92,45 @@
 # array = [3, 4, 1, 2, 1, 5, 6, 2, 3]
 # print(calculate_intervals(array))
 
-class Solution:
-    def largestRectangleArea(self, heights: List[int]) -> int:
-        maxArea = 0
-        stack = []  # pair: (index, height)
+# class Solution:
+#     def largestRectangleArea(self, heights: List[int]) -> int:
+#         maxArea = 0
+#         stack = []  # pair: (index, height)
 
-        for i, h in enumerate(heights):
-            start = i
-            while stack and stack[-1][1] > h:
-                index, height = stack.pop()
-                maxArea = max(maxArea, height * (i - index))
-                start = index
-            stack.append((start, h))
+#         for i, h in enumerate(heights):
+#             start = i
+#             while stack and stack[-1][1] > h:
+#                 index, height = stack.pop()
+#                 maxArea = max(maxArea, height * (i - index))
+#                 start = index
+#             stack.append((start, h))
 
-        for i, h in stack:
-            maxArea = max(maxArea, h * (len(heights) - i))
-        return maxArea
+#         for i, h in stack:
+#             maxArea = max(maxArea, h * (len(heights) - i))
+#         return maxArea
+
+
+def merge_sort_to_return_allowed_width(outer_positions, inner_positions):
+    allowed_width = []
+    counter = 0
+    index = 0
+    while inner_positions or outer_positions:
+        if not outer_positions:
+            allowed_width.append(1)
+            break
+        elif outer_positions[0] > inner_positions[0]:
+            inner_positions.pop(0)
+            if counter == 0:
+                allowed_width.append(1)
+            else:
+                allowed_width[index] += 1
+            counter += 1
+        else:
+            outer_positions.pop(0)
+            counter = 0
+            index += 1
+        print(outer_positions, inner_positions)
+    return allowed_width
+
+
+print(merge_sort_to_return_allowed_width([0,4],[5]))
